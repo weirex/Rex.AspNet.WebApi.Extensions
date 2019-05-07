@@ -1,9 +1,9 @@
 # Rex.AspNet.WebApi.Extensions
 
-## ¼ò½é
-»ùÓÚ¿ò¼Ü `.NET Framework 4.7`£¬°üº¬¿ª·¢ÖĞ»ù´¡µÄÀ©Õ¹¹¦ÄÜ¡£
+## ç®€ä»‹
+åŸºäºæ¡†æ¶ `.NET Framework 4.7`ï¼ŒåŒ…å«å¼€å‘ä¸­æœ€åŸºç¡€çš„æ‰©å±•åŠŸèƒ½ã€‚
 
-### 1. Òì³£²¶»ñ²¢¼ÇÂ¼ÈÕÖ¾
+### 1. å¼‚å¸¸æ•è·å¹¶è®°å½•æ—¥å¿—
 
 *[C#]*
 
@@ -11,7 +11,7 @@
 config.Filters.Add(new WebApiExceptionAttribute());
 ```
 
-### 2. ¿çÓòÇëÇóÉèÖÃ
+### 2. è·¨åŸŸè¯·æ±‚è®¾ç½®
 > for [Microsoft.AspNet.WebApi.Cors](https://www.nuget.org/packages/Microsoft.AspNet.WebApi.Cors "Microsoft.AspNet.WebApi.Cors")
 
 *[AppSettings]*
@@ -34,9 +34,9 @@ var methods = AppSettings.GetValue("methods");
 config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
 ```
 
-### 3. ÉèÖÃÖ»·µ»ØJSON
+### 3. è®¾ç½®åªè¿”å›JSON
 
-> for [·µ»Ø JSON µÄÕıÈ·×ö·¨](https://www.strathweb.com/2013/06/supporting-only-json-in-asp-net-web-api-the-right-way/ "·µ»Ø JSON µÄÕıÈ·×ö·¨")
+> for [è¿”å› JSON çš„æ­£ç¡®åšæ³•](https://www.strathweb.com/2013/06/supporting-only-json-in-asp-net-web-api-the-right-way/ "è¿”å› JSON çš„æ­£ç¡®åšæ³•")
 
 *[C#]*
 
@@ -44,7 +44,7 @@ config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
 config.Services.Replace(typeof(IContentNegotiator), new JsonNetContentNegotiator());
 ```
 
-### 4. ÆôÓÃÑ¹ËõÇëÇóÊı¾İ Gzip/Deflate
+### 4. å¯ç”¨å‹ç¼©è¯·æ±‚æ•°æ® Gzip/Deflate
 > for [Microsoft.AspNet.WebApi.Extensions.Compression.Server](https://www.nuget.org/packages/Microsoft.AspNet.WebApi.Extensions.Compression.Server "Microsoft.AspNet.WebApi.Extensions.Compression.Server")
 
 *[C#]*
@@ -53,25 +53,27 @@ config.Services.Replace(typeof(IContentNegotiator), new JsonNetContentNegotiator
 config.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 ```
 
-### 5. ÇøÓòÉèÖÃ£¨Ö§³ÖÎŞÏŞ¼¶£©
+### 5. åŒºåŸŸè®¾ç½®ï¼ˆæ”¯æŒæ— é™çº§ï¼‰
 
-***Ä¿Â¼½á¹¹£º***
+***ç›®å½•ç»“æ„ï¼š***
 
+```
 Controllers
-©¸©¤ School
-©¸©¤©¤©¤©¤©¤ Teacher
-©¸©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ TeacherDemoController.cs
-©¸©¤©¤©¤©¤ Students
-©¸©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ StudentsDemoController.cs
-©¸©¤©¤©¤©¤ SchoolDemoController.cs
-©¸©¤ DemoController.cs
+â””â”€ School
+â””â”€â”€â”€â”€â”€ Teacher
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TeacherDemoController.cs
+â””â”€â”€â”€â”€ Students
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ StudentsDemoController.cs
+â””â”€â”€â”€â”€ SchoolDemoController.cs
+â””â”€ DemoController.cs
+```
 
-***API µØÖ·£º***
+***API åœ°å€ï¼š***
 
-/api/School/Teacher/TeacherDemo/Get
-/api/School/Students/StudentsDemo/Get
-/api/School/SchoolDemo/Get
-/api/Demo/Get
+- /api/School/Teacher/TeacherDemo/Get
+- /api/School/Students/StudentsDemo/Get
+- /api/School/SchoolDemo/Get
+- /api/Demo/Get
 
 *[C#]*
 
@@ -91,13 +93,13 @@ config.Routes.MapHttpRoute(
     routeTemplate: "api/{controller}/{id}",
     defaults: new { id = RouteParameter.Optional }
 );
-//·ÅÔÚ Register ·½·¨×îºóÒ»ĞĞ
+//æ”¾åœ¨ Register æ–¹æ³•æœ€åä¸€è¡Œ
 config.Services.Replace(typeof(IHttpControllerSelector), new AreaHttpControllerSelector(config));
 ```
 
-### ÍêÕûÊµÀı
+### å®Œæ•´å®ä¾‹
 
-×¢²áµ½ `App_Start\WebApiConfig.cs` ÎÄ¼şÖĞ
+æ³¨å†Œåˆ° `App_Start\WebApiConfig.cs` æ–‡ä»¶ä¸­
 
 *[AppSettings]*
 
@@ -113,22 +115,22 @@ config.Services.Replace(typeof(IHttpControllerSelector), new AreaHttpControllerS
 
 ```csharp
 public static void Register(HttpConfiguration config) {
-    // Web API Òì³£²¶»ñ²¢¼ÇÂ¼ÈÕÖ¾
+    // Web API å¼‚å¸¸æ•è·å¹¶è®°å½•æ—¥å¿—
     config.Filters.Add(new WebApiExceptionAttribute());
 
-    // Web API ·µ»Ø JSON Êı¾İ
+    // Web API è¿”å› JSON æ•°æ®
     config.Services.Replace(typeof(IContentNegotiator), new JsonNetContentNegotiator());
 
-    // Web API ÆôÓÃÑ¹Ëõ
+    // Web API å¯ç”¨å‹ç¼©
     config.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 
-    // Web API ¿çÓòÇëÇóÉèÖÃ
+    // Web API è·¨åŸŸè¯·æ±‚è®¾ç½®
     var origins = AppSettings.GetValue("origins");
     var headers = AppSettings.GetValue("headers");
     var methods = AppSettings.GetValue("methods");
     config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
 
-    // Web API Â·ÓÉ
+    // Web API è·¯ç”±
     config.Routes.MapHttpRoute(
         name: "DefaultArea2Api",
         routeTemplate: "api/{area1}/{area2}/{controller}/{action}/{id}",
@@ -145,56 +147,56 @@ public static void Register(HttpConfiguration config) {
         defaults: new { id = RouteParameter.Optional }
     );
 
-    //·ÅÔÚ Register ·½·¨×îºóÒ»ĞĞ
+    //æ”¾åœ¨ Register æ–¹æ³•æœ€åä¸€è¡Œ
     config.Services.Replace(typeof(IHttpControllerSelector), new AreaHttpControllerSelector(config));
 }
 ```
 
-### 6. »º´æÉèÖÃ
-ÀàËÆ `MVC` µÄ `OutputCacheAttribute` ¿ÉÒÔÓÃÓÚ Web API
+### 6. ç¼“å­˜è®¾ç½®
+ç±»ä¼¼ `MVC` çš„ `OutputCacheAttribute` å¯ä»¥ç”¨äº Web API
 > for [CacheOutput](https://www.nuget.org/packages/Strathweb.CacheOutput.WebApi2/ "CacheOutput")
 
 *[C#]*
 
-**`Action` ÉèÖÃ»º´æ**
+**`Action` è®¾ç½®ç¼“å­˜**
 
 ```csharp
-// ·şÎñÆ÷»º´æ100Ãë£¬Í¨Öª¿Í»§¶ËÏìÓ¦ÓĞĞ§100Ãë¡£
+// æœåŠ¡å™¨ç¼“å­˜100ç§’ï¼Œé€šçŸ¥å®¢æˆ·ç«¯å“åº”æœ‰æ•ˆ100ç§’ã€‚
 [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)]
 public IEnumerable<string> Get(){
     return new string[] { "value1", "value2" };
 }
 
-// ·şÎñÆ÷»º´æ100Ãë£¬Í¨Öª¿Í»§¶ËÏìÓ¦ÓĞĞ§100Ãë£¬½öÎªÄäÃûÓÃ»§»º´æ¡£
+// æœåŠ¡å™¨ç¼“å­˜100ç§’ï¼Œé€šçŸ¥å®¢æˆ·ç«¯å“åº”æœ‰æ•ˆ100ç§’ï¼Œä»…ä¸ºåŒ¿åç”¨æˆ·ç¼“å­˜ã€‚
 [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100, AnonymousOnly = true)]
 public IEnumerable<string> Get(){
     return new string[] { "value1", "value2" };
 }
 
-// Í¨Öª¿Í»§¶ËÏìÓ¦ÓĞĞ§50Ãë£¬Ç¿ÖÆ¿Í»§¶ËÖØĞÂÑéÖ¤¡£
+// é€šçŸ¥å®¢æˆ·ç«¯å“åº”æœ‰æ•ˆ50ç§’ï¼Œå¼ºåˆ¶å®¢æˆ·ç«¯é‡æ–°éªŒè¯ã€‚
 [CacheOutput(ClientTimeSpan = 50, MustRevalidate = true)]
 public string Get(int id){
     return "value";
 }
 
-// ·şÎñÆ÷»º´æ50Ãë£¬ÔÚÌá¹©»º´æÄÚÈİÊ±ºöÂÔ QueryString ²ÎÊı¡£
+// æœåŠ¡å™¨ç¼“å­˜50ç§’ï¼Œåœ¨æä¾›ç¼“å­˜å†…å®¹æ—¶å¿½ç•¥ QueryString å‚æ•°ã€‚
 [CacheOutput(ServerTimeSpan = 50, ExcludeQueryStringFromCacheKey = true)]
 public string Get(int id){
     return "value";
 }
 ```
 
-**`Controller` ÉèÖÃ»º´æ**
+**`Controller` è®¾ç½®ç¼“å­˜**
 
 ```csharp
-// ¶Ô Controller ½øĞĞ»º´æÉèÖÃ
+// å¯¹ Controller è¿›è¡Œç¼“å­˜è®¾ç½®
 [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
 public class IgnoreController : ApiController{
     public string GetCached()    {
         return DateTime.Now.ToString();
     }
 
-    // Ê¹ÓÃ IgnoreCacheOutput ÊôĞÔÍË³ö»º´æ
+    // ä½¿ç”¨ IgnoreCacheOutput å±æ€§é€€å‡ºç¼“å­˜
     [IgnoreCacheOutput]
     public string GetUnCached(){
         return DateTime.Now.ToString();
