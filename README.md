@@ -90,7 +90,7 @@ config.Routes.MapHttpRoute(
 );
 config.Routes.MapHttpRoute(
     name: "DefaultApi",
-    routeTemplate: "api/{controller}/{id}",
+    routeTemplate: "api/{controller}/{action}/{id}",
     defaults: new { id = RouteParameter.Optional }
 );
 //放在 Register 方法最后一行
@@ -143,7 +143,7 @@ public static void Register(HttpConfiguration config) {
     );
     config.Routes.MapHttpRoute(
         name: "DefaultApi",
-        routeTemplate: "api/{controller}/{id}",
+        routeTemplate: "api/{controller}/{action}/{id}",
         defaults: new { id = RouteParameter.Optional }
     );
 
