@@ -3,15 +3,48 @@
 ## 简介
 基于框架 `.NET Framework 4.7`，包含开发中最基础的扩展功能。
 
-### 1. 异常捕获并记录日志
+## 目录
+* [更新日志](CHANGELOG.md "更新日志")（2019.07.31）
+* [1.异常捕获并记录日志](#1异常捕获并记录日志)
+* [2.跨域请求设置](#2跨域请求设置)
+* [3.设置只返回JSON](#3设置只返回JSON)
+* [4.启用压缩请求数据Gzip/Deflate](#4启用压缩请求数据Gzip/Deflate)
+* [5.区域设置（支持无限级）](#5区域设置（支持无限级）)
+* [6.缓存设置](#6缓存设置)
 
-*[C#]*
+### 1.异常捕获并记录日志
+
+*[C#] 方式1*
 
 ```csharp
 config.Filters.Add(new WebApiExceptionAttribute());
 ```
 
-### 2. 跨域请求设置
+*[JSON]
+
+```json
+{
+  "code": -1,
+  "msg": "系统正在发呆，请稍后再尝试哟~"
+}
+```
+
+*[C#] 方式2*
+
+```csharp
+config.Filters.Add(new WebApiExceptionAttribute(new ResultModel { Code = -1000, Msg = "服务器开小差了~" }));
+```
+
+*[JSON]*
+
+```json
+{
+  "code": -1000,
+  "msg": "服务器开小差了~"
+}
+```
+### 2.跨域请求设置
+
 > for [Microsoft.AspNet.WebApi.Cors](https://www.nuget.org/packages/Microsoft.AspNet.WebApi.Cors "Microsoft.AspNet.WebApi.Cors")
 
 *[AppSettings]*
@@ -34,7 +67,7 @@ var methods = AppSettings.GetValue("methods");
 config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
 ```
 
-### 3. 设置只返回JSON
+### 3.设置只返回JSON
 
 > for [返回 JSON 的正确做法](https://www.strathweb.com/2013/06/supporting-only-json-in-asp-net-web-api-the-right-way/ "返回 JSON 的正确做法")
 
@@ -44,7 +77,8 @@ config.EnableCors(new EnableCorsAttribute(origins, headers, methods));
 config.Services.Replace(typeof(IContentNegotiator), new JsonNetContentNegotiator());
 ```
 
-### 4. 启用压缩请求数据 Gzip/Deflate
+### 4.启用压缩请求数据 Gzip/Deflate
+
 > for [Microsoft.AspNet.WebApi.Extensions.Compression.Server](https://www.nuget.org/packages/Microsoft.AspNet.WebApi.Extensions.Compression.Server "Microsoft.AspNet.WebApi.Extensions.Compression.Server")
 
 *[C#]*
@@ -53,7 +87,7 @@ config.Services.Replace(typeof(IContentNegotiator), new JsonNetContentNegotiator
 config.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 ```
 
-### 5. 区域设置（支持无限级）
+### 5.区域设置（支持无限级）
 
 ***目录结构：***
 
@@ -152,7 +186,8 @@ public static void Register(HttpConfiguration config) {
 }
 ```
 
-### 6. 缓存设置
+### 6.缓存设置
+
 类似 `MVC` 的 `OutputCacheAttribute` 可以用于 Web API
 > for [CacheOutput](https://www.nuget.org/packages/Strathweb.CacheOutput.WebApi2/ "CacheOutput")
 
@@ -201,5 +236,54 @@ public class IgnoreController : ApiController{
     public string GetUnCached(){
         return DateTime.Now.ToString();
     }
+}
+```
+
+### 7.WebAPI接收JSON参数
+
+通过 JSON.NET 接收参数
+
+*[C#] 注册 WebApiConfig.cs*
+```csharp
+config.MessageHandlers.Add(new JsonNetHandler());
+```
+
+*[C#] 实体类*
+
+```csharp
+ [JsonObject(MemberSerialization.OptIn)]
+ public class TestModel
+ {
+     [JsonProperty(PropertyName ="id")]
+     public long PkId { get; set; }
+
+     [JsonProperty(PropertyName = "ie")]
+     public bool IsEnable { get; set; }
+ 
+     [JsonProperty(PropertyName = "cd")]
+     public DateTime CreateDate { get; set; }
+ }
+```
+
+*[C#] WebApi*
+
+```csharp
+ public class DefaultController : ApiController
+ {
+     [HttpPost]
+     public TestModel T1(TestModel model)
+     {
+         return model;
+     }
+ }
+```
+
+*[JSON]*
+
+```json
+{
+    "id": 10000,
+    "ie": true,
+    "cd": "2015-12-10 12:12:12"
 }
 ```
